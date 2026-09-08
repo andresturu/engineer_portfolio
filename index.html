@@ -4,346 +4,121 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andres Turullols — Hardware Engineer</title>
-<style>
-  :root {
-    --bg: #12151a;
-    --bg-elevated: #1a1f27;
-    --bg-hover: #212733;
-    --border: #2a3140;
-    --text: #dcd8ce;
-    --text-dim: #7d8590;
-    --text-faint: #4d5460;
-    --accent: #e3a857;
-    --accent-dim: #7a5f38;
-    --mono: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
-    --sans: -apple-system, 'Segoe UI', Inter, sans-serif;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.6;
-    display: flex;
-    min-height: 100vh;
-  }
-
-  /* ---- Sidebar: file tree ---- */
-  .sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    background: var(--bg-elevated);
-    border-right: 1px solid var(--border);
-    padding: 28px 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  .sidebar-header {
-    padding: 0 20px 20px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 12px;
-  }
-
-  .sidebar-header .name {
-    font-family: var(--mono);
-    font-size: 15px;
-    color: var(--text);
-  }
-
-  .sidebar-header .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 15px;
-    background: var(--accent);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 1.1s step-end infinite;
-  }
-
-  @keyframes blink { 50% { opacity: 0; } }
-
-  .tree-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 20px;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text-dim);
-    text-decoration: none;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-    transition: color 0.15s, background 0.15s, border-color 0.15s;
-  }
-
-  .tree-item:hover { color: var(--text); background: var(--bg-hover); }
-
-  .tree-item.active {
-    color: var(--accent);
-    border-left-color: var(--accent);
-    background: var(--bg-hover);
-  }
-
-  .tree-item .icon { color: var(--text-faint); font-size: 12px; }
-
-  /* ---- Main content ---- */
-  main {
-    flex: 1;
-    max-width: 760px;
-    padding: 56px 48px 120px;
-  }
-
-  .file-tab {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-faint);
-    margin-bottom: 8px;
-  }
-
-  section { margin-bottom: 80px; scroll-margin-top: 40px; }
-
-  h1 {
-    font-family: var(--mono);
-    font-size: 32px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  .role {
-    font-size: 16px;
-    color: var(--accent);
-    font-family: var(--mono);
-    margin-bottom: 28px;
-  }
-
-  h2 {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text-faint);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  h2::before { content: '#'; color: var(--accent-dim); }
-
-  h2::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  p { color: var(--text-dim); font-size: 15px; max-width: 62ch; }
-
-  p + p { margin-top: 14px; }
-
-  .stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 22px;
-  }
-
-  .chip {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 3px;
-  }
-
-  .project {
-    border-left: 1px solid var(--border);
-    padding: 4px 0 4px 20px;
-    margin-bottom: 32px;
-    position: relative;
-  }
-
-  .project::before {
-    content: '';
-    position: absolute;
-    left: -4px;
-    top: 8px;
-    width: 7px;
-    height: 7px;
-    background: var(--bg);
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-  }
-
-  .project-name {
-    font-family: var(--mono);
-    font-size: 16px;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  .project-name a { color: inherit; text-decoration: none; }
-  .project-name a:hover { color: var(--accent); }
-
-  .project-meta {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    margin-top: 10px;
-  }
-
-  .contact-list { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-
-  .contact-list a {
-    font-family: var(--mono);
-    font-size: 14px;
-    color: var(--text);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 10px;
-    width: fit-content;
-    border-bottom: 1px solid transparent;
-  }
-
-  .contact-list a:hover { color: var(--accent); border-bottom-color: var(--accent-dim); }
-  .contact-list .k { color: var(--text-faint); }
-
-  footer {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    margin-top: 40px;
-  }
-
-  /* ---- Mobile ---- */
-  @media (max-width: 720px) {
-    body { flex-direction: column; }
-    .sidebar {
-      width: 100%;
-      height: auto;
-      position: relative;
-      display: flex;
-      overflow-x: auto;
-      padding: 14px 0;
-    }
-    .sidebar-header { display: none; }
-    .tree-item { border-left: none; border-bottom: 2px solid transparent; white-space: nowrap; }
-    .tree-item.active { border-left-color: transparent; border-bottom-color: var(--accent); }
-    main { padding: 36px 22px 80px; }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<nav class="sidebar">
-  <div class="sidebar-header">
-    <div class="name">andres_turullols<span class="cursor"></span></div>
+<header class="site-header">
+  <svg class="circuit-trace" viewBox="0 0 500 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M120 0 V40 H240 V90 H340" stroke="#DCE3F5" stroke-width="2" fill="none"/>
+    <path d="M200 140 V100 H300 V60 H460" stroke="#DCE3F5" stroke-width="2" fill="none"/>
+    <path d="M60 0 V20 H140" stroke="#DCE3F5" stroke-width="2" fill="none"/>
+    <circle cx="240" cy="40" r="4" fill="#2952E3"/>
+    <circle cx="340" cy="90" r="4" fill="#FF7A3D"/>
+    <circle cx="300" cy="60" r="4" fill="#2952E3"/>
+    <circle cx="140" cy="20" r="3" fill="#DCE3F5"/>
+  </svg>
+  <div class="wrap">
+    <a class="brand" href="#top">Andres Turullols</a>
+    <nav class="header-links">
+      <a href="https://www.linkedin.com/in/andres-turullols" target="_blank">LinkedIn</a>
+      <a class="resume-link" href="resume.pdf" target="_blank">Resume</a>
+    </nav>
   </div>
-  <a class="tree-item active" href="#about"><span class="icon">○</span> about.md</a>
-  <a class="tree-item" href="#projects"><span class="icon">○</span> projects.md</a>
-  <a class="tree-item" href="#experience"><span class="icon">○</span> experience.md</a>
-  <a class="tree-item" href="#contact"><span class="icon">○</span> contact.md</a>
-</nav>
+</header>
 
 <main>
-  <section id="about">
-    <div class="file-tab">~/about.md</div>
-    <h1>Andres Turullols</h1>
-    <div class="role">Hardware Engineer</div>
-    <p>
-      I build things for the web — mostly backend systems and the occasional
-      frontend when it needs doing right. Based in [Your City]. Currently
-      working on [what you're doing now, e.g. distributed systems at a startup].
-    </p>
-    <p>
-      Outside of work I like [a hobby], [another hobby], and reading about
-      [a topic you're into]. This paragraph is a placeholder — replace it
-      with whatever's actually true about you.
-    </p>
-    <div class="stack">
-      <span class="chip">Python</span>
-      <span class="chip">TypeScript</span>
-      <span class="chip">React</span>
-      <span class="chip">PostgreSQL</span>
-      <span class="chip">AWS</span>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="eyebrow">Hardware Engineer</div>
+      <h1>Building electronics that do real work in the real world.</h1>
     </div>
   </section>
 
-  <section id="projects">
-    <div class="file-tab">~/projects.md</div>
-    <h2>Projects</h2>
-
-    <div class="project">
-      <div class="project-name"><a href="#" target="_blank">Project One</a></div>
-      <p>One or two sentences on what it does and why you built it. Mention the interesting technical decision, not just the tech stack.</p>
-      <div class="project-meta">Python · PostgreSQL · Docker</div>
-    </div>
-
-    <div class="project">
-      <div class="project-name"><a href="#" target="_blank">Project Two</a></div>
-      <p>Same format — what it is, the problem it solves, one thing you're proud of in how you built it.</p>
-      <div class="project-meta">TypeScript · React · Node.js</div>
-    </div>
-
-    <div class="project">
-      <div class="project-name"><a href="#" target="_blank">Project Three</a></div>
-      <p>Keep these short. A hiring manager skims this section — make every line earn its place.</p>
-      <div class="project-meta">Go · Redis</div>
-    </div>
-  </section>
-
-  <section id="experience">
-    <div class="file-tab">~/experience.md</div>
-    <h2>Experience</h2>
-
-    <div class="project">
-      <div class="project-name">Software Engineer — Company Name</div>
-      <p>2023 — Present. What you actually did, framed as outcomes: "cut deploy time by X%", "built the service that handles Y", not just a list of duties.</p>
-    </div>
-
-    <div class="project">
-      <div class="project-name">Junior Engineer — Previous Company</div>
-      <p>2021 — 2023. Same idea — one or two lines, outcome-focused.</p>
+  <section class="about">
+    <div class="wrap about-grid">
+      <div class="about-photo">
+        <!-- Replace with: <img src="me.jpg" alt="Andres Turullols"> -->
+        <span class="placeholder-label">Add a photo<br>(me.jpg)</span>
+      </div>
+      <div class="about-text">
+        <h2>About me</h2>
+        <p>
+          I'm an electrical engineering student at Northwestern, interested in
+          [power systems / embedded electronics / whatever your focus is —
+          replace this]. I like taking projects from a schematic to a working
+          board on my desk.
+        </p>
+        <p>
+          Outside of coursework I'm usually [a hobby or interest]. This bio is
+          a placeholder — swap it for a couple of real sentences about you.
+        </p>
+        <div class="stack">
+          <span class="chip">Circuit Design</span>
+          <span class="chip">PCB Layout</span>
+          <span class="chip">Embedded C</span>
+          <span class="chip">Power Electronics</span>
+          <span class="chip">MATLAB</span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="contact">
-    <div class="file-tab">~/contact.md</div>
-    <h2>Contact</h2>
-    <div class="contact-list">
-      <a href="mailto:andresturullols2029@u.northwestern.edu"><span class="k">email</span> andresturullols2029@u.northwestern.edu</a>
-      <a href="https://github.com/andresturu" target="_blank"><span class="k">github</span> github.com/andresturu</a>
-      <a href="https://www.linkedin.com/in/andres-turullols" target="_blank"><span class="k">linkedin</span> linkedin.com/in/andres-turullols</a>
+  <section class="projects">
+    <div class="wrap">
+      <h2 class="section-heading">Projects</h2>
+
+      <a class="project-row" href="project-1.html">
+        <div class="project-info">
+          <h3>Project One</h3>
+          <p>One or two sentences on what it does and the problem it solves. Click through for the full writeup.</p>
+          <div class="project-tags">PCB Design · Embedded C</div>
+        </div>
+        <div class="project-photo">
+          <!-- Replace with: <img src="project1.jpg" alt="Project One"> -->
+          <span class="placeholder-label">Add a photo<br>(project1.jpg)</span>
+        </div>
+      </a>
+
+      <a class="project-row" href="project-2.html">
+        <div class="project-info">
+          <h3>Project Two</h3>
+          <p>Same format — a short summary here, full detail on its own page.</p>
+          <div class="project-tags">Power Electronics · Analog Design</div>
+        </div>
+        <div class="project-photo">
+          <!-- Replace with: <img src="project2.jpg" alt="Project Two"> -->
+          <span class="placeholder-label">Add a photo<br>(project2.jpg)</span>
+        </div>
+      </a>
+
+      <a class="project-row" href="project-3.html">
+        <div class="project-info">
+          <h3>Project Three</h3>
+          <p>Keep the summary tight — this is what someone skims first.</p>
+          <div class="project-tags">Signal Processing · MATLAB</div>
+        </div>
+        <div class="project-photo">
+          <!-- Replace with: <img src="project3.jpg" alt="Project Three"> -->
+          <span class="placeholder-label">Add a photo<br>(project3.jpg)</span>
+        </div>
+      </a>
     </div>
-    <footer>built with html/css, deployed on github pages</footer>
   </section>
 </main>
 
-<script>
-  // Highlight the sidebar item matching the section currently in view
-  const sections = document.querySelectorAll('main section');
-  const links = document.querySelectorAll('.tree-item');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const match = document.querySelector(`.tree-item[href="#${entry.target.id}"]`);
-        if (match) match.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-40% 0px -50% 0px' });
-
-  sections.forEach(s => observer.observe(s));
-</script>
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <h2>Get in touch</h2>
+    <p class="sub">Happy to talk about any of this in more detail.</p>
+    <div class="contact-list">
+      <a href="mailto:andresturullols2029@u.northwestern.edu">Email</a>
+      <a href="https://github.com/andresturu" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/andres-turullols" target="_blank">LinkedIn</a>
+    </div>
+    <p class="credit">Built with HTML/CSS, deployed on GitHub Pages.</p>
+  </div>
+</footer>
 
 </body>
 </html>
